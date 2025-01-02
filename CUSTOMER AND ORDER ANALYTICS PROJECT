@@ -1,0 +1,97 @@
+SELECT *
+FROM customers
+WHERE order_id <> 'Order ID'
+AND Length (order_id) = 6;
+
+-- Q1: How many orders were placed in January?
+
+SELECT *
+FROM JanSales;
+
+SELECT COUNT(orderID)
+FROM Jansales
+WHERE orderID <> ''
+AND length (orderID) = 6;
+
+-- Q2: How many of those orders were for an iPhone?
+SELECT COUNT (orderID)
+From Jansales
+WHERE orderID <> ''
+AND length (orderID) = 6
+AND Product = 'iPhone';
+
+-- Q3: Select the customer account numbers for all the orders that were placed in February.
+
+
+SELECT *
+FROM customers;
+
+SELECT *
+FROM febsales;
+
+SELECT Distinct(acctnum)
+FROM customers C
+JOIN FEBSales F
+ON C.order_ID = F.orderID
+WHERE orderID <> ''
+AND length (orderID) = 6;
+
+-- Q4: Which product was the cheapest one sold in January, and what was the price?
+
+SELECT *
+FROM jansales
+WHERE orderID <> ''
+AND length (orderID) = 6 
+Order by price
+LIMIT 1;
+
+-- OR
+
+SELECT product, min(price)
+FROM jansales
+WHERE orderID <> ''
+AND length (orderID) = 6 
+Group by product
+ORDER by min(price);
+
+-- Q5 What is the total revenue for each product sold in January?
+
+SELECT *
+FROM jansales;
+
+SELECT  Product, SUM(Quantity)* Price AS Total_Revenue
+FROM jansales
+WHERE orderID <> ''
+AND length (orderID) = 6
+Group by product;
+
+-- Q6: Which products were sold in February at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue?
+
+SELECT product, quantity, quantity*price AS TR
+FROM Febsales
+WHERE location = '548 Lincoln St, Seattle, WA 98101';
+
+
+-- Q7: How many customers ordered more than 2 products at a time in February, and what was the average amount spent for those customers?
+
+SELECT COUNT(c.order_id), 
+AVG(F.quantity * F.price)
+FROM FEBsales F
+JOIN customers C
+ON F.OrderID = C.order_id
+WHERE orderID <> ''
+AND length (orderID) = 6
+AND quantity > 2;
+
+
+
+-- Q8: List all the products sold in Los Angeles in February, and include how many of each were sold.
+SELECT Product, SUM(quantity)
+FROM febsales
+WHERE location LIKE '%Los Angeles%'
+GROUP BY Product;
+
+
+
+
+
